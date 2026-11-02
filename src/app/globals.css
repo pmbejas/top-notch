@@ -94,13 +94,23 @@ body {
 .tarjeta-cristal-profunda {
   background: linear-gradient(
     145deg,
-    rgba(11, 27, 105, 0.78) 0%,
-    rgba(7, 18, 74, 0.92) 100%
+    rgba(11, 27, 105, 0.88) 0%,
+    rgba(7, 18, 74, 0.96) 100%
   );
-  backdrop-filter: blur(16px);
   box-shadow:
-    0 20px 50px -15px rgba(2, 6, 23, 0.75),
+    0 18px 40px -15px rgba(2, 6, 23, 0.72),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+@media (min-width: 768px) {
+  .tarjeta-cristal-profunda {
+    background: linear-gradient(
+      145deg,
+      rgba(11, 27, 105, 0.78) 0%,
+      rgba(7, 18, 74, 0.92) 100%
+    );
+    backdrop-filter: blur(12px);
+  }
 }
 
 /* Las 3 tarjetas vibrantes con textura propias de la referencia SuccessMind */

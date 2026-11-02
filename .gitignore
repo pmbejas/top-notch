@@ -22,6 +22,7 @@
 /scripts/subir-github.mjs
 /subir-github.bat
 /subir-github.ps1
+/hacerpush.ps1
 
 # Archivos de reglas y todos los .md (excepto README.md)
 GEMINI.md

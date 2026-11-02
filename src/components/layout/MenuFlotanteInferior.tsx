@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "motion/react";
 import {
@@ -52,6 +52,21 @@ export function MenuFlotanteInferior() {
   const pathname = usePathname();
 
   const [seccionActiva, setSeccionActiva] = useState<string>("inicio");
+  const bloqueoScrollManualRef = useRef<boolean>(false);
+  const temporizadorDesbloqueoRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+
+  function seleccionarSeccionManual(idSeccion: string) {
+    bloqueoScrollManualRef.current = true;
+    setSeccionActiva(idSeccion);
+    if (temporizadorDesbloqueoRef.current) {
+      clearTimeout(temporizadorDesbloqueoRef.current);
+    }
+    temporizadorDesbloqueoRef.current = setTimeout(() => {
+      bloqueoScrollManualRef.current = false;
+    }, 750);
+  }
 
   useEffect(() => {
     const idsObservados = [
@@ -61,13 +76,18 @@ export function MenuFlotanteInferior() {
 
     const observador = new IntersectionObserver(
       (entradas) => {
+        if (bloqueoScrollManualRef.current) return;
         const entradaVisible = entradas.find((entrada) => entrada.isIntersecting);
         if (entradaVisible?.target?.id) {
-          setSeccionActiva(entradaVisible.target.id);
+          setSeccionActiva((previa) =>
+            previa === entradaVisible.target.id
+              ? previa
+              : entradaVisible.target.id
+          );
         }
       },
       {
-        rootMargin: "-25% 0px -55% 0px",
+        rootMargin: "-30% 0px -55% 0px",
         threshold: 0.05,
       }
     );
@@ -79,7 +99,12 @@ export function MenuFlotanteInferior() {
       }
     });
 
-    return () => observador.disconnect();
+    return () => {
+      observador.disconnect();
+      if (temporizadorDesbloqueoRef.current) {
+        clearTimeout(temporizadorDesbloqueoRef.current);
+      }
+    };
   }, []);
 
   function cambiarIdioma(nuevoIdioma: IdiomaSoportado) {
@@ -101,7 +126,7 @@ export function MenuFlotanteInferior() {
               <li key={elemento.idSeccion} className="relative shrink-0">
                 <a
                   href={`#${elemento.idSeccion}`}
-                  onClick={() => setSeccionActiva(elemento.idSeccion)}
+                  onClick={() => seleccionarSeccionManual(elemento.idSeccion)}
                   aria-current={estaActivo ? "location" : undefined}
                   className={cn(
                     "relative flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:px-3.5 sm:text-xs",
@@ -141,7 +166,7 @@ export function MenuFlotanteInferior() {
         {/* Botón CTA destacado dentro del menú flotante inferior */}
         <a
           href="#diagnostico"
-          onClick={() => setSeccionActiva("diagnostico")}
+          onClick={() => seleccionarSeccionManual("diagnostico")}
           className={cn(
             "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold tracking-wide transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 sm:px-4",
             seccionActiva === "diagnostico"

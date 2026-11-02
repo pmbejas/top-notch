@@ -26,7 +26,6 @@ import { DivisorOnda } from "@/components/ui/DivisorOnda";
 export function SeccionHero() {
   const tHero = useTranslations("hero");
   const tAccesibilidad = useTranslations("accesibilidad");
-  const rutaBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <section id="inicio" className="relative overflow-hidden pt-3 pb-0 sm:pt-5">
@@ -43,7 +42,7 @@ export function SeccionHero() {
                 {/* Imagen de retrato de Luciano de fondo encuadrada sobre su figura */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                   <Image
-                    src={`${rutaBase}/images/coach-stand-out.jpeg`}
+                    src="/images/coach-stand-out.jpeg"
                     alt={tAccesibilidad("retratoCoach")}
                     fill
                     priority
