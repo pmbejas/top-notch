@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --color-base-profundo: #040b35;
+  --color-base-superficie: #07124a;
+  --color-base-elevada: #0b1b69;
+  --color-neutro-puro: #f8fafc;
+  --color-neutro-secundario: #cbd5e1;
+  --color-contraste-ambar: #ff8a00;
+  --color-contraste-ambar-vivo: #f97316;
+  --color-acento-cian: #00e5ff;
+  --color-acento-cian-suave: #06b6d4;
+  --color-acento-violeta: #7c3aed;
+}
+
+:root {
+  --escala-dorada: 1.618;
+  --tamano-texto-base: 0.95rem;
+  --tamano-titulo-h3: 1.25rem;
+  --tamano-titulo-h2: 2rem;
+  --tamano-titulo-h1: 2.65rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #040b35;
+  color: #f8fafc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: #040b35;
+  color: #f8fafc;
+  overflow-x: hidden;
+}
+
+/* Tipografía fresca y compacta (Outfit + DM Sans) */
+.texto-dorado-base {
+  font-size: var(--tamano-texto-base);
+  line-height: 1.55;
+}
+
+.texto-dorado-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.6vw, var(--tamano-titulo-h3));
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.texto-dorado-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, var(--tamano-titulo-h2));
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+
+.texto-dorado-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.1vw, var(--tamano-titulo-h1));
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+/* Superficies oscuras ejecutivas (Top-Notch) */
+.fondo-malla-profunda {
+  background-color: #040b35;
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(0, 229, 255, 0.16) 0%, transparent 36%),
+    radial-gradient(circle at 86% 18%, rgba(124, 58, 237, 0.22) 0%, transparent 40%),
+    radial-gradient(circle at 75% 78%, rgba(255, 138, 0, 0.14) 0%, transparent 38%),
+    linear-gradient(180deg, #040b35 0%, #07124a 52%, #040b35 100%);
+}
+
+/* Superficie clara orgánica perlada (Inspirada en SuccessMind + Preply) */
+.superficie-clara-organica {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(circle at 12% 20%, rgba(0, 229, 255, 0.09) 0%, transparent 40%),
+    radial-gradient(circle at 88% 30%, rgba(124, 58, 237, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 50% 85%, rgba(255, 138, 0, 0.08) 0%, transparent 45%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #040b35;
+}
+
+.tarjeta-cristal-profunda {
+  background: linear-gradient(
+    145deg,
+    rgba(11, 27, 105, 0.78) 0%,
+    rgba(7, 18, 74, 0.92) 100%
+  );
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 20px 50px -15px rgba(2, 6, 23, 0.75),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+/* Las 3 tarjetas vibrantes con textura propias de la referencia SuccessMind */
+.tarjeta-vibrante-perla {
+  background:
+    radial-gradient(circle at 85% 15%, rgba(0, 229, 255, 0.18), transparent 55%),
+    linear-gradient(155deg, #ffffff 0%, #f1f5f9 100%);
+  box-shadow:
+    0 22px 45px -15px rgba(4, 11, 53, 0.14),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+}
+
+.tarjeta-vibrante-violeta {
+  background:
+    radial-gradient(circle at 80% 18%, rgba(216, 180, 254, 0.28), transparent 52%),
+    linear-gradient(155deg, #7c3aed 0%, #5b21b6 55%, #3b0764 100%);
+  box-shadow:
+    0 25px 50px -12px rgba(91, 33, 182, 0.42),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.tarjeta-vibrante-ambar {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(254, 243, 199, 0.35), transparent 55%),
+    linear-gradient(155deg, #fbbf24 0%, #ff8a00 58%, #ea580c 100%);
+  box-shadow:
+    0 25px 50px -12px rgba(234, 88, 12, 0.35),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.45);
+}

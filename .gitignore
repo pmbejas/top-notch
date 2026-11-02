@@ -1,0 +1,50 @@
+# Dependencias
+/node_modules
+/.pnp
+.pnp.*
+
+# Next.js build
+/.next/
+/out/
+/build
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Documentación interna y scripts de propuesta / subida
+/Documentacion/
+/documentacion/
+*.pdf
+**/*.pdf
+/scripts/generar-propuesta-pdf.mjs
+/scripts/subir-github.mjs
+/subir-github.bat
+/subir-github.ps1
+
+# Archivos de reglas y todos los .md (excepto README.md)
+GEMINI.md
+**/GEMINI.md
+REGLAS-DISENO.md
+**/REGLAS-DISENO.md
+*.md
+**/*.md
+!README.md
+!readme.md
+!**/README.md
+!**/readme.md
+
+# Logs y temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# TypeScript e IDE
+*.tsbuildinfo
+next-env.d.ts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
