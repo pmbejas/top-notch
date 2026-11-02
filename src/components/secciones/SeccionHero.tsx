@@ -31,13 +31,9 @@ export function SeccionHero() {
     <section id="inicio" className="relative overflow-hidden pt-3 pb-0 sm:pt-5">
       <div className="relative z-10 mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
-          {/* CARD PRINCIPAL ESTILO PABLOBEJAS.VERCEL.APP (1.º en Mobile ocupando la altura del viewport) */}
+          {/* CARD PRINCIPAL ESTILO PABLOBEJAS.VERCEL.APP (1.º en Mobile ocupando la altura estable del viewport svh) */}
           <div className="order-1 lg:col-span-5">
-            <AnimacionAparicion
-              desplazamientoY={24}
-              escalaInicial={0.95}
-              className="h-[calc(100dvh-1.5rem)] min-h-[540px] w-full sm:h-[calc(100dvh-2.5rem)] lg:h-[calc(100dvh-3.5rem)] lg:max-h-[780px]"
-            >
+            <div className="animacion-entrada-hero h-[calc(100svh-1.5rem)] min-h-[540px] w-full sm:h-[calc(100svh-2.5rem)] lg:h-[calc(100svh-3.5rem)] lg:max-h-[780px]">
               <article className="relative flex h-full w-full flex-col justify-end overflow-hidden rounded-[2.25rem] border border-cyan-400/25 bg-[#050814] p-6 shadow-[0_25px_70px_rgba(2,6,23,0.95),0_0_40px_rgba(0,229,255,0.12)] sm:p-8">
                 {/* Imagen de retrato de Luciano de fondo encuadrada sobre su figura */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
@@ -164,11 +160,11 @@ export function SeccionHero() {
                   </div>
                 </div>
               </article>
-            </AnimacionAparicion>
+            </div>
           </div>
 
           {/* COLUMNA COMPLEMENTARIA (2.º en Mobile, a la derecha en Desktop, libre sin card para el titular) */}
-          <div className="order-2 flex flex-col justify-center gap-8 lg:col-span-7 lg:h-[calc(100dvh-3.5rem)] lg:max-h-[780px] lg:pb-12">
+          <div className="order-2 flex flex-col justify-center gap-8 lg:col-span-7 lg:h-[calc(100svh-3.5rem)] lg:max-h-[780px] lg:pb-12">
             {/* Propuesta de Valor libre sobre el fondo (sin card contenedor) */}
             <AnimacionAparicion
               retrasoSegundos={0.08}

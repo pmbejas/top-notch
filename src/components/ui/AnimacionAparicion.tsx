@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import { motion, useInView } from "motion/react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 interface AnimacionAparicionProps {
@@ -14,83 +13,57 @@ interface AnimacionAparicionProps {
   className?: string;
 }
 
-const DURACION_ENTRADA_SEGUNDOS = 0.38;
-
 /**
- * Contenedor de aparición fluida al hacer scroll:
- * 1. Observa un contenedor estático (sin transform) para evitar que el propio movimiento Y
- *    altere el IntersectionObserver y dispare la animación varias veces seguidas.
- * 2. Mantiene el elemento visible mientras cualquier parte siga en pantalla (amount: 0),
- *    evitando que se desvanezca o choque con otros elementos antes de salir del viewport.
- * 3. Solo se reinicia (con duración 0s) cuando salió 100% fuera de la pantalla, quedando
- *    listo para volver a animarse suavemente al regresar con el scroll.
+ * Animación sutil de foco y brillo por CSS puro (acelerada por GPU, 0 JS en scroll):
+ * - No desplaza los elementos verticalmente contra el dedo del usuario (evita tirones en mobile).
+ * - Tampoco oculta los bloques a opacidad 0 cuando hacés scroll rápido.
+ * - Al entrar en pantalla, el bloque pasa suavemente a foco pleno (opacity + micro-escala)
+ *   y las tarjetas reciben un destello diagonal sutil de luz.
  */
 export function AnimacionAparicion({
   children,
   retrasoSegundos = 0,
-  desplazamientoY = 18,
-  desplazamientoX = 0,
-  escalaInicial = 0.98,
   efectoHover = false,
   className,
 }: AnimacionAparicionProps) {
-  const referenciaContenedor = useRef<HTMLDivElement | null>(null);
-  const estaEnVista = useInView(referenciaContenedor, {
-    once: false,
-    amount: 0,
-    margin: "20px 0px 20px 0px",
-  });
+  const referenciaElemento = useRef<HTMLDivElement | null>(null);
+  const [estaEnFoco, setEstaEnFoco] = useState<boolean>(false);
 
-  const desplazamientoYSuave = Math.min(Math.max(desplazamientoY, -18), 18);
-  const desplazamientoXSuave = Math.min(Math.max(desplazamientoX, -16), 16);
-  const escalaSuave = Math.max(escalaInicial, 0.975);
-  const retrasoSuave = Math.min(retrasoSegundos, 0.1);
+  useEffect(() => {
+    const nodo = referenciaElemento.current;
+    if (!nodo) return;
+
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada) {
+          setEstaEnFoco(entrada.isIntersecting);
+        }
+      },
+      {
+        rootMargin: "-4% 0px -4% 0px",
+        threshold: 0.08,
+      }
+    );
+
+    observador.observe(nodo);
+    return () => observador.disconnect();
+  }, []);
+
+  const retrasoMs = Math.min(Math.round(retrasoSegundos * 1000), 90);
+  const estiloVariables: CSSProperties =
+    retrasoMs > 0
+      ? ({ "--retraso-foco": `${retrasoMs}ms` } as CSSProperties)
+      : {};
 
   return (
-    <div ref={referenciaContenedor} className={cn(className)}>
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: desplazamientoYSuave,
-          x: desplazamientoXSuave,
-          scale: escalaSuave,
-        }}
-        animate={
-          estaEnVista
-            ? {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                scale: 1,
-              }
-            : {
-                opacity: 0,
-                y: desplazamientoYSuave,
-                x: desplazamientoXSuave,
-                scale: escalaSuave,
-              }
-        }
-        whileHover={
-          efectoHover
-            ? { y: -6, scale: 1.015, transition: { duration: 0.2 } }
-            : undefined
-        }
-        transition={
-          estaEnVista
-            ? {
-                duration: DURACION_ENTRADA_SEGUNDOS,
-                delay: retrasoSuave,
-                ease: [0.22, 1, 0.36, 1],
-              }
-            : {
-                duration: 0,
-                delay: 0,
-              }
-        }
-        className="h-full w-full will-change-[transform,opacity]"
-      >
-        {children}
-      </motion.div>
+    <div
+      ref={referenciaElemento}
+      data-en-foco={estaEnFoco ? "true" : "false"}
+      data-destello={efectoHover ? "true" : "false"}
+      style={estiloVariables}
+      className={cn("bloque-foco-sutil", className)}
+    >
+      {children}
     </div>
   );
 }
