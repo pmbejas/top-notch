@@ -83,7 +83,7 @@ export function MenuFlotanteInferior() {
   }, []);
 
   function cambiarIdioma(nuevoIdioma: IdiomaSoportado) {
-    router.replace(pathname, { locale: nuevoIdioma });
+    router.replace(pathname || "/", { locale: nuevoIdioma });
   }
 
   return (

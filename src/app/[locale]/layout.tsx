@@ -43,11 +43,13 @@ export async function generateMetadata({
   const { locale } = await params;
   const tMeta = await getTranslations({ locale, namespace: "metadatos" });
 
+  const rutaBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
   return {
     title: tMeta("titulo"),
     description: tMeta("descripcion"),
     icons: {
-      icon: "/images/isotipo-standout.svg",
+      icon: `${rutaBase}/images/isotipo-standout.svg`,
     },
   };
 }
